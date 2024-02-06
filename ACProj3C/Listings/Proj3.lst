@@ -1,0 +1,182 @@
+C51 COMPILER V9.60.7.0   PROJ3                                                             06/06/2023 20:44:41 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PROJ3
+OBJECT MODULE PLACED IN .\Objects\Proj3.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Proj3.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Pro
+                    -j3.lst) TABS(2) OBJECT(.\Objects\Proj3.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          //-----------------------------------Constantes e Variáveis-----------------------------------
+   4          
+   5          sbit Verde1 = P1 ^ 0;
+   6          sbit Vermelho1 = P1 ^ 1;
+   7          sbit Amarelo = P1 ^ 2;
+   8          sbit Verde2 = P1 ^ 3;
+   9          sbit Vermelho2 = P1 ^ 4;
+  10          sbit segA = P2 ^ 0;
+  11          sbit segB = P2 ^ 1;
+  12          sbit segC = P2 ^ 2;
+  13          sbit segD = P2 ^ 3;
+  14          
+  15          bit sensor1 = 0;
+  16          bit sensor2 = 0;
+  17          
+  18          unsigned short availablePlaces = 9;
+  19          unsigned short counter = 0;
+  20          unsigned short secs = 0;
+  21          //-----------------------------------Funções-----------------------------------
+  22          
+  23          void display(unsigned short num);
+  24          
+  25          void estadoInicial(void);
+  26          
+  27          void reiniciaTimer(void);
+  28          
+  29          void main(void)
+  30          {
+  31   1          TMOD = 0x02;
+  32   1          TH0 = 0x06;
+  33   1          TL0 = 0x06;
+  34   1          ET0 = 1;
+  35   1          EA = 1;
+  36   1          EX0 = 1;
+  37   1          IT0 = 1;
+  38   1          EX1 = 1;
+  39   1          IT1 = 1;
+  40   1      
+  41   1          display(availablePlaces);
+  42   1      
+  43   1          estadoInicial();
+  44   1      
+  45   1          while (1)
+  46   1          {  
+  47   2            if ((sensor1 && availablePlaces != 0) || (sensor2 && availablePlaces != 9))
+  48   2              { // Está a entrar um carro e tem lugares disponíveis
+  49   3                  TR0 = 1;
+  50   3      
+  51   3                  // Durante 5 segundos:
+  52   3                  if (secs < 5)
+  53   3                  {
+  54   4                      if (sensor1) {
+C51 COMPILER V9.60.7.0   PROJ3                                                             06/06/2023 20:44:41 PAGE 2   
+
+  55   5                          Verde1 = 0;    // Liga o Verde1
+  56   5                          Vermelho1 = 1; // Desliga o Vermelho1
+  57   5                          Verde2 = 1;    // Desliga o Verde2
+  58   5                          Vermelho2 = 0; // Liga o Vermelho2
+  59   5                      } else {
+  60   5                          Verde1 = 1;    // Desliga o Verde1
+  61   5                          Vermelho1 = 0; // Liga o Vermelho1
+  62   5                          Verde2 = 0;    // Liga o Verde2
+  63   5                          Vermelho2 = 1; // Desliga o Vermelho2
+  64   5                      }
+  65   4                  
+  66   4                      
+  67   4                  }
+  68   3      
+  69   3                  // Após os 5 segundos:
+  70   3                  else
+  71   3                  {
+  72   4                      estadoInicial();
+  73   4                    
+  74   4                      if (sensor1) {
+  75   5                          availablePlaces--;
+  76   5                      } else {
+  77   5                          availablePlaces++;
+  78   5                      }
+  79   4                    
+  80   4                      reiniciaTimer();
+  81   4                      
+  82   4                      
+  83   4                      
+  84   4                      display(availablePlaces);
+  85   4                  }
+  86   3              }
+  87   2          }
+  88   1      }
+  89          
+  90          void display(unsigned short num)
+  91          {
+  92   1          unsigned short segments[10][4] = {
+  93   1              {0, 0, 0, 0}, // 0
+  94   1              {0, 0, 0, 1}, // 1
+  95   1              {0, 0, 1, 0}, // 2
+  96   1              {0, 0, 1, 1}, // 3
+  97   1              {0, 1, 0, 0}, // 4
+  98   1              {0, 1, 0, 1}, // 5
+  99   1              {0, 1, 1, 0}, // 6
+ 100   1              {0, 1, 1, 1}, // 7
+ 101   1              {1, 0, 0, 0}, // 8
+ 102   1              {1, 0, 0, 1}, // 9
+ 103   1          };
+ 104   1      
+ 105   1          segA = segments[num][3];
+ 106   1          segB = segments[num][2];
+ 107   1          segC = segments[num][1];
+ 108   1          segD = segments[num][0];
+ 109   1      }
+ 110          
+ 111          void estadoInicial(void) {
+ 112   1          Verde1 = 0;    // Liga o Verde1
+ 113   1          Vermelho1 = 1; // Desliga o Vermelho1
+ 114   1          Amarelo = 1;   // Desliga o Amarelo
+ 115   1          Verde2 = 0;    // Liga o Verde2
+ 116   1          Vermelho2 = 1; // Desliga o Vermelho2
+C51 COMPILER V9.60.7.0   PROJ3                                                             06/06/2023 20:44:41 PAGE 3   
+
+ 117   1      }
+ 118          
+ 119          void reiniciaTimer(void) {
+ 120   1          counter = 0;
+ 121   1          secs = 0;
+ 122   1          TR0 = 0;
+ 123   1          TH0 = 0x06;
+ 124   1          TL0 = 0x06;
+ 125   1          sensor1 = 0;
+ 126   1          sensor2 = 0;
+ 127   1      }
+ 128          
+ 129          void interrupcaoExt0(void) interrupt 0
+ 130          {
+ 131   1          sensor1 = 1;
+ 132   1      }
+ 133          
+ 134          void interrupcaoExt1(void) interrupt 2
+ 135          {
+ 136   1          sensor2 = 1;
+ 137   1      }
+ 138          
+ 139          void timer0(void) interrupt 1
+ 140          {
+ 141   1          counter++;
+ 142   1          if ((counter % 4000) == 0) {
+ 143   2            
+ 144   2            if (secs == 0)
+ 145   2            {
+ 146   3                Amarelo = 0;
+ 147   3            } else {
+ 148   3                Amarelo = !Amarelo;
+ 149   3            }
+ 150   2            
+ 151   2            secs++;
+ 152   2          }
+ 153   1          
+ 154   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    334    ----
+   CONSTANT SIZE    =     80    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6      82
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,290 @@
+A51 MACRO ASSEMBLER  PROJ3                                                                05/24/2023 10:12:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Proj3.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Proj3.a51 SET(SMALL) DEBUG PRINT(.\Listings\Proj3.lst) OBJECT(.\Objects
+                      \Proj3.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;-----------------------------------Constantes e Variáveis---------------------------------
+                             --
+                       2     
+  0090                 3     Verde1        EQU P1.0
+  0091                 4     Vermelho1     EQU P1.1
+  0092                 5     Amarelo       EQU P1.2
+  0093                 6     Verde2        EQU P1.3
+  0094                 7     Vermelho2     EQU P1.4
+  00A0                 8     segA          EQU P2.0
+  00A1                 9     segB          EQU P2.1
+  00A2                10     segC          EQU P2.2
+  00A3                11     segD          EQU P2.3
+                      12     
+  0000                13     flag1 BIT 0
+  0001                14     flag2 BIT 1
+                      15     
+  0009                16     availablePlaces EQU 9
+  0000                17     counter         EQU 0
+                      18     
+                      19     ;-----------------------------------Placements-----------------------------------
+                      20     
+----                  21     CSEG AT 0000H
+0000 804E             22             JMP main
+                      23     
+----                  24     CSEG AT 0003H
+0003 211A             25             JMP interrupcaoExt0
+                      26             
+----                  27     CSEG AT 000BH
+000B 212C             28             JMP timer0
+                      29             
+----                  30     CSEG AT 0013H
+0013 2123             31             JMP interrupcaoExt1
+                      32             
+                      33     ;-----------------------------------Código Principal-----------------------------------
+                      34     
+----                  35     CSEG AT 0050H
+0050                  36     main:
+0050 758108           37             MOV SP, #8
+0053 758902           38         MOV TMOD, #0x02
+0056 758C06           39         MOV TH0, #0x06
+0059 758A06           40         MOV TL0, #0x06
+005C 75B802           41             MOV IP, #00000010b
+005F D2A9             42         SETB ET0
+0061 D2AF             43         SETB EA
+0063 D2A8             44         SETB EX0
+0065 D288             45         SETB IT0
+0067 D2AA             46         SETB EX1
+0069 D28A             47         SETB IT1
+                      48     
+006B 7814             49             MOV R0, #20
+006D 79C8             50             MOV R1, #200
+006F 7A00             51             MOV R2, #counter
+0071 7B09             52         MOV R3, #availablePlaces
+                      53     
+0073 C290             54         CLR Verde1
+0075 D291             55         SETB Vermelho1
+0077 D292             56         SETB Amarelo
+A51 MACRO ASSEMBLER  PROJ3                                                                05/24/2023 10:12:27 PAGE     2
+
+0079 C293             57         CLR Verde2
+007B D294             58         SETB Vermelho2
+007D 8000             59             JMP loopSensor1
+                      60             
+007F                  61     loopSensor1:
+007F 200007           62             JB flag1, inicializaTimer0
+0082 8000             63             JMP loopSensor2
+                      64     
+0084                  65     loopSensor2:
+0084 200106           66             JB flag2, inicializaTimer1
+0087 80F6             67             JMP loopSensor1
+                      68     
+0089                  69     inicializaTimer0:
+0089 D28C             70             SETB TR0
+008B 8004             71             JMP verificaSegundos
+                      72             
+008D                  73     inicializaTimer1:
+008D D28C             74             SETB TR0
+008F 8005             75             JMP verificaSegundos2
+                      76             
+0091                  77     verificaSegundos:
+0091 BA0511           78             CJNE R2, #5, menorCincoSegundos1
+0094 8057             79             JMP cincoSegundos1
+                      80     
+0096                  81     verificaSegundos2:
+0096 BA0502           82             CJNE R2, #5, menorCincoSegundos2
+0099 8059             83             JMP cincoSegundos2
+                      84     
+009B                  85     menorCincoSegundos2:
+009B D290             86             SETB Verde1
+009D C291             87             CLR Vermelho1
+009F C293             88             CLR Verde2
+00A1 D294             89             SETB Vermelho2
+00A3 8028             90             JMP seForZeroSegundo2
+                      91     
+00A5                  92     menorCincoSegundos1:
+00A5 C290             93             CLR Verde1
+00A7 D291             94             SETB Vermelho1
+00A9 D293             95             SETB Verde2
+00AB C294             96             CLR Vermelho2
+                      97             
+00AD                  98     seForZeroSegundo:
+00AD BA0004           99             CJNE R2, #0, seForUmSegundo
+00B0 3117            100             CALL ativarAmarelo
+00B2 80DD            101             JMP verificaSegundos
+00B4                 102     seForUmSegundo:
+00B4 BA0104          103             CJNE R2, #1, seForDoisSegundos
+00B7 3114            104             CALL desativarAmarelo
+00B9 80D6            105             JMP verificaSegundos
+00BB                 106     seForDoisSegundos:
+00BB BA0204          107             CJNE R2, #2, seForTresSegundos
+00BE 3117            108             CALL ativarAmarelo
+00C0 80CF            109             JMP verificaSegundos
+00C2                 110     seForTresSegundos:
+00C2 BA0304          111             CJNE R2, #3, seForQuatroSegundos
+00C5 3114            112             CALL desativarAmarelo
+00C7 80C8            113             JMP verificaSegundos
+00C9                 114     seForQuatroSegundos:
+00C9 3117            115             CALL ativarAmarelo
+00CB 80C4            116             JMP verificaSegundos
+                     117     
+00CD                 118     seForZeroSegundo2:
+00CD BA0004          119             CJNE R2, #0, seForUmSegundo2
+00D0 3117            120             CALL ativarAmarelo
+00D2 80C2            121             JMP verificaSegundos2
+00D4                 122     seForUmSegundo2:
+A51 MACRO ASSEMBLER  PROJ3                                                                05/24/2023 10:12:27 PAGE     3
+
+00D4 BA0104          123             CJNE R2, #1, seForDoisSegundos2
+00D7 3114            124             CALL desativarAmarelo
+00D9 80BB            125             JMP verificaSegundos2
+00DB                 126     seForDoisSegundos2:
+00DB BA0204          127             CJNE R2, #2, seForTresSegundos2
+00DE 3117            128             CALL ativarAmarelo
+00E0 80B4            129             JMP verificaSegundos2
+00E2                 130     seForTresSegundos2:
+00E2 BA0304          131             CJNE R2, #3, seForQuatroSegundos2
+00E5 3114            132             CALL desativarAmarelo
+00E7 80AD            133             JMP verificaSegundos2
+00E9                 134     seForQuatroSegundos2:
+00E9 3117            135             CALL ativarAmarelo
+00EB 80A9            136             JMP verificaSegundos2
+                     137     
+00ED                 138     cincoSegundos1:
+00ED 11FB            139             CALL clear
+00EF 1B              140             DEC R3
+00F0 8BA0            141             MOV P2, R3
+00F2 808B            142             JMP loopSensor1
+                     143     
+00F4                 144     cincoSegundos2:
+00F4 11FB            145             CALL clear
+00F6 0B              146             INC R3
+00F7 8BA0            147             MOV P2, R3
+00F9 8084            148             JMP loopSensor1
+                     149             
+00FB                 150     clear:
+00FB C290            151             CLR Verde1
+00FD D291            152             SETB Vermelho1
+00FF 3114            153             CALL desativarAmarelo
+0101 C293            154             CLR Verde2
+0103 D294            155             SETB Vermelho2
+0105 7A00            156             MOV R2, #0
+0107 C28C            157             CLR TR0
+0109 C200            158             CLR flag1
+010B C201            159             CLR flag2
+010D 758C06          160         MOV TH0, #0x06
+0110 758A06          161         MOV TL0, #0x06      
+0113 22              162             RET
+                     163             
+0114                 164     desativarAmarelo:
+0114 D292            165             SETB Amarelo
+0116 22              166             RET
+                     167             
+0117                 168     ativarAmarelo:
+0117 C292            169             CLR Amarelo
+0119 22              170             RET
+                     171             
+011A                 172     interrupcaoExt0:
+011A BB0003          173         CJNE R3, #0, ativaflag1
+011D C200            174             CLR flag1
+011F 32              175         RETI
+                     176     
+0120                 177     ativaflag1:
+0120 D200            178             SETB flag1
+0122 32              179             RETI
+                     180     
+0123                 181     interrupcaoExt1:
+0123 BB0903          182          CJNE R3, #9, ativaflag2
+0126 C201            183              CLR flag2
+0128 32              184         RETI
+                     185     
+0129                 186     ativaflag2:
+0129 D201            187             SETB flag2
+012B 32              188             RETI
+A51 MACRO ASSEMBLER  PROJ3                                                                05/24/2023 10:12:27 PAGE     4
+
+                     189     
+012C                 190     timer0:
+012C D809            191             DJNZ R0, final
+012E 7814            192             MOV R0, #20
+0130 D905            193             DJNZ R1, final
+0132 C28D            194             CLR TF0
+0134 0A              195             INC R2
+0135 79C8            196             MOV R1, #200
+                     197     
+0137                 198     final:
+0137 32              199         RETI
+                     200     
+                     201     END
+A51 MACRO ASSEMBLER  PROJ3                                                                05/24/2023 10:12:27 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E               T Y P E  V A L U E   ATTRIBUTES
+
+AMARELO. . . . . . .  B ADDR   0090H.2 A   
+ATIVAFLAG1 . . . . .  C ADDR   0120H   A   
+ATIVAFLAG2 . . . . .  C ADDR   0129H   A   
+ATIVARAMARELO. . . .  C ADDR   0117H   A   
+AVAILABLEPLACES. . .  N NUMB   0009H   A   
+CINCOSEGUNDOS1 . . .  C ADDR   00EDH   A   
+CINCOSEGUNDOS2 . . .  C ADDR   00F4H   A   
+CLEAR. . . . . . . .  C ADDR   00FBH   A   
+COUNTER. . . . . . .  N NUMB   0000H   A   
+DESATIVARAMARELO . .  C ADDR   0114H   A   
+EA . . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . . .  B ADDR   00A8H.1 A   
+EX0. . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . .  B ADDR   00A8H.2 A   
+FINAL. . . . . . . .  C ADDR   0137H   A   
+FLAG1. . . . . . . .  B ADDR   0020H.0 A   
+FLAG2. . . . . . . .  B ADDR   0020H.1 A   
+INICIALIZATIMER0 . .  C ADDR   0089H   A   
+INICIALIZATIMER1 . .  C ADDR   008DH   A   
+INTERRUPCAOEXT0. . .  C ADDR   011AH   A   
+INTERRUPCAOEXT1. . .  C ADDR   0123H   A   
+IP . . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . .  B ADDR   0088H.2 A   
+LOOPSENSOR1. . . . .  C ADDR   007FH   A   
+LOOPSENSOR2. . . . .  C ADDR   0084H   A   
+MAIN . . . . . . . .  C ADDR   0050H   A   
+MENORCINCOSEGUNDOS1.  C ADDR   00A5H   A   
+MENORCINCOSEGUNDOS2.  C ADDR   009BH   A   
+P1 . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . .  D ADDR   00A0H   A   
+SEFORDOISSEGUNDOS. .  C ADDR   00BBH   A   
+SEFORDOISSEGUNDOS2 .  C ADDR   00DBH   A   
+SEFORQUATROSEGUNDOS.  C ADDR   00C9H   A   
+SEFORQUATROSEGUNDOS2  C ADDR   00E9H   A   
+SEFORTRESSEGUNDOS. .  C ADDR   00C2H   A   
+SEFORTRESSEGUNDOS2 .  C ADDR   00E2H   A   
+SEFORUMSEGUNDO . . .  C ADDR   00B4H   A   
+SEFORUMSEGUNDO2. . .  C ADDR   00D4H   A   
+SEFORZEROSEGUNDO . .  C ADDR   00ADH   A   
+SEFORZEROSEGUNDO2. .  C ADDR   00CDH   A   
+SEGA . . . . . . . .  B ADDR   00A0H.0 A   
+SEGB . . . . . . . .  B ADDR   00A0H.1 A   
+SEGC . . . . . . . .  B ADDR   00A0H.2 A   
+SEGD . . . . . . . .  B ADDR   00A0H.3 A   
+SP . . . . . . . . .  D ADDR   0081H   A   
+TF0. . . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . . .  D ADDR   008CH   A   
+TIMER0 . . . . . . .  C ADDR   012CH   A   
+TL0. . . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . .  B ADDR   0088H.4 A   
+VERDE1 . . . . . . .  B ADDR   0090H.0 A   
+VERDE2 . . . . . . .  B ADDR   0090H.3 A   
+VERIFICASEGUNDOS . .  C ADDR   0091H   A   
+VERIFICASEGUNDOS2. .  C ADDR   0096H   A   
+VERMELHO1. . . . . .  B ADDR   0090H.1 A   
+VERMELHO2. . . . . .  B ADDR   0090H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

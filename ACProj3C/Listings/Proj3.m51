@@ -1,0 +1,248 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    06/06/2023  20:44:41  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\Proj3.obj TO .\Objects\Proj3 PRINT (.\Listings\Proj3.m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Proj3.obj (PROJ3)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?COPY)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Proj3 (PROJ3)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     UNIT         ?DT?PROJ3
+                    000EH     0012H                  *** GAP ***
+            BIT     0020H.0   0000H.2   UNIT         ?BI?PROJ3
+                    0020H.2   0000H.6                *** GAP ***
+            DATA    0021H     0052H     UNIT         _DATA_GROUP_
+            IDATA   0073H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+                    0006H     0005H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     0005H                  *** GAP ***
+            CODE    0013H     0003H     ABSOLUTE     
+                    0016H     07EAH                  *** GAP ***
+            CODE    0800H     014BH     UNIT         ?C?LIB_CODE
+            CODE    094BH     008CH     UNIT         ?C_C51STARTUP
+            CODE    09D7H     007BH     UNIT         ?PR?MAIN?PROJ3
+            CODE    0A52H     005EH     UNIT         ?PR?_DISPLAY?PROJ3
+            CODE    0AB0H     0050H     UNIT         ?CO?PROJ3
+            CODE    0B00H     004EH     UNIT         ?PR?TIMER0?PROJ3
+            CODE    0B4EH     0016H     UNIT         ?PR?REINICIATIMER?PROJ3
+            CODE    0B64H     0011H     UNIT         ?C_INITSEG
+            CODE    0B75H     000BH     UNIT         ?PR?ESTADOINICIAL?PROJ3
+            CODE    0B80H     0003H     UNIT         ?PR?INTERRUPCAOEXT0?PROJ3
+            CODE    0B83H     0003H     UNIT         ?PR?INTERRUPCAOEXT1?PROJ3
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Proj3 (PROJ3)
+
+
+SEGMENT                             DATA_GROUP 
+  +--> CALLED SEGMENT             START    LENGTH
+-------------------------------------------------
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/06/2023  20:44:41  PAGE 2
+
+
+?C_C51STARTUP                     -----    -----
+  +--> ?PR?MAIN?PROJ3
+  +--> ?C_INITSEG
+
+?PR?MAIN?PROJ3                    -----    -----
+  +--> ?PR?_DISPLAY?PROJ3
+  +--> ?PR?ESTADOINICIAL?PROJ3
+  +--> ?PR?REINICIATIMER?PROJ3
+
+?PR?_DISPLAY?PROJ3                0021H    0052H
+  +--> ?CO?PROJ3
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Proj3 (PROJ3)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        PROJ3
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  B:00A0H.0       PUBLIC        segA
+  D:00A0H         PUBLIC        P2
+  B:00A0H.1       PUBLIC        segB
+  D:0008H         PUBLIC        availablePlaces
+  B:00A0H.2       PUBLIC        segC
+  D:000AH         PUBLIC        counter
+  B:00A0H.3       PUBLIC        segD
+  B:00A8H.7       PUBLIC        EA
+  C:0B80H         PUBLIC        interrupcaoExt0
+  C:0B83H         PUBLIC        interrupcaoExt1
+  C:09D7H         PUBLIC        main
+  B:0090H.0       PUBLIC        Verde1
+  B:0090H.3       PUBLIC        Verde2
+  D:000CH         PUBLIC        secs
+  D:0089H         PUBLIC        TMOD
+  C:0B75H         PUBLIC        estadoInicial
+  C:0AB0H         SYMBOL        _?ix1000
+  B:0090H.2       PUBLIC        Amarelo
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  C:0B4EH         PUBLIC        reiniciaTimer
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  B:0020H.0       PUBLIC        sensor1
+  B:0020H.1       PUBLIC        sensor2
+  D:008AH         PUBLIC        TL0
+  C:0B00H         PUBLIC        timer0
+  B:0088H.4       PUBLIC        TR0
+  B:0090H.1       PUBLIC        Vermelho1
+  B:0090H.4       PUBLIC        Vermelho2
+  C:0A52H         PUBLIC        _display
+  -------         PROC          MAIN
+  C:09D7H         LINE#         29
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/06/2023  20:44:41  PAGE 3
+
+
+  C:09D7H         LINE#         30
+  C:09D7H         LINE#         31
+  C:09DAH         LINE#         32
+  C:09DDH         LINE#         33
+  C:09E0H         LINE#         34
+  C:09E2H         LINE#         35
+  C:09E4H         LINE#         36
+  C:09E6H         LINE#         37
+  C:09E8H         LINE#         38
+  C:09EAH         LINE#         39
+  C:09ECH         LINE#         41
+  C:09F3H         LINE#         43
+  C:09F6H         LINE#         45
+  C:09F6H         LINE#         46
+  C:09F6H         LINE#         47
+  C:0A0AH         LINE#         48
+  C:0A0AH         LINE#         49
+  C:0A0CH         LINE#         52
+  C:0A17H         LINE#         53
+  C:0A17H         LINE#         54
+  C:0A1AH         LINE#         55
+  C:0A1CH         LINE#         56
+  C:0A1EH         LINE#         57
+  C:0A20H         LINE#         58
+  C:0A22H         LINE#         59
+  C:0A24H         LINE#         60
+  C:0A26H         LINE#         61
+  C:0A28H         LINE#         62
+  C:0A2AH         LINE#         63
+  C:0A2CH         LINE#         64
+  C:0A2CH         LINE#         67
+  C:0A2EH         LINE#         71
+  C:0A2EH         LINE#         72
+  C:0A31H         LINE#         74
+  C:0A34H         LINE#         75
+  C:0A3CH         LINE#         76
+  C:0A3EH         LINE#         77
+  C:0A46H         LINE#         78
+  C:0A46H         LINE#         80
+  C:0A49H         LINE#         84
+  C:0A50H         LINE#         85
+  C:0A50H         LINE#         86
+  C:0A50H         LINE#         87
+  -------         ENDPROC       MAIN
+  -------         PROC          _DISPLAY
+  D:0021H         SYMBOL        num
+  -------         DO            
+  D:0023H         SYMBOL        segments
+  -------         ENDDO         
+  C:0A52H         LINE#         90
+  C:0A56H         LINE#         91
+  C:0A56H         LINE#         92
+  C:0A69H         LINE#         105
+  C:0A7CH         LINE#         106
+  C:0A8DH         LINE#         107
+  C:0A9EH         LINE#         108
+  C:0AAFH         LINE#         109
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/06/2023  20:44:41  PAGE 4
+
+
+  -------         ENDPROC       _DISPLAY
+  -------         PROC          ESTADOINICIAL
+  C:0B75H         LINE#         111
+  C:0B75H         LINE#         112
+  C:0B77H         LINE#         113
+  C:0B79H         LINE#         114
+  C:0B7BH         LINE#         115
+  C:0B7DH         LINE#         116
+  C:0B7FH         LINE#         117
+  -------         ENDPROC       ESTADOINICIAL
+  -------         PROC          REINICIATIMER
+  C:0B4EH         LINE#         119
+  C:0B4EH         LINE#         120
+  C:0B53H         LINE#         121
+  C:0B57H         LINE#         122
+  C:0B59H         LINE#         123
+  C:0B5CH         LINE#         124
+  C:0B5FH         LINE#         125
+  C:0B61H         LINE#         126
+  C:0B63H         LINE#         127
+  -------         ENDPROC       REINICIATIMER
+  -------         PROC          INTERRUPCAOEXT0
+  C:0B80H         LINE#         129
+  C:0B80H         LINE#         131
+  C:0B82H         LINE#         132
+  -------         ENDPROC       INTERRUPCAOEXT0
+  -------         PROC          INTERRUPCAOEXT1
+  C:0B83H         LINE#         134
+  C:0B83H         LINE#         136
+  C:0B85H         LINE#         137
+  -------         ENDPROC       INTERRUPCAOEXT1
+  -------         PROC          TIMER0
+  C:0B00H         LINE#         139
+  C:0B13H         LINE#         141
+  C:0B1BH         LINE#         142
+  C:0B29H         LINE#         144
+  C:0B2FH         LINE#         145
+  C:0B2FH         LINE#         146
+  C:0B31H         LINE#         147
+  C:0B33H         LINE#         148
+  C:0B35H         LINE#         149
+  C:0B35H         LINE#         151
+  C:0B3DH         LINE#         152
+  C:0B3DH         LINE#         154
+  -------         ENDPROC       TIMER0
+  -------         ENDMOD        PROJ3
+
+  -------         MODULE        ?C?COPY
+  C:08D0H         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+  -------         MODULE        ?C?UIDIV
+  C:08F6H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 01B7H BYTE (21%) *
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/06/2023  20:44:41  PAGE 5
+
+
+******************************************************************************
+
+Program Size: data=97.2 xdata=0 code=914
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
